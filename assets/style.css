@@ -101,3 +101,54 @@ footer{gap:24px}
 dialog{padding:30px}
 }
 @media(prefers-reduced-motion:reduce){.service-grid article:hover{transform:none}}
+
+
+/* Gentle mint palette: youthful, calm and welcoming. */
+:root{--primary:#3DBDAA;--primary-soft:#5CC9B5;--green:#174F48;--cream:#FBFEFC;--mint:#EAF8F3;--muted:#536F69;--gold:#A86730;--peach:#FFE0CA;--yellow:#FFF2C6}
+body{background:var(--cream)}
+em{color:#267365}
+.demo-bar{background:#EAF8F3;color:var(--green)}
+.demo-bar span{opacity:1;color:var(--muted)}
+.brand-icon{color:#248575}
+.button{background:var(--primary);border-color:var(--primary);color:#103D36;font-weight:600}
+.button:hover{background:var(--primary-soft);border-color:var(--primary-soft);color:#103D36}
+.button:active{background:#32AE9C}
+nav>a:hover,.text-link:hover{color:#247B6D}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline-color:#A86730}
+.eyebrow>span{background:var(--primary)}
+.hero-note{border-color:#CEE9DF}
+.line-art{background:var(--yellow);border-color:#F0DEAA;color:#7D6227}
+.hero-visual{background:#E4F5ED;box-shadow:0 16px 48px #3DBDAA12;border:1px solid #D5EDE3}
+.hero-visual>img{filter:saturate(.85) brightness(1.04)}
+.visual-top,.visual-caption{color:#365F53}
+.doctor-tag{background:#FFFFFF}
+.doctor-tag>span{color:#536F69}
+.doctor-tag a{background:var(--peach);color:#70431E;border-radius:50%;width:38px;height:38px;display:grid;place-items:center;line-height:1}
+.values{background:#DFF5ED;color:var(--green);border-top:1px solid #CEE9DF;border-bottom:1px solid #CEE9DF}
+.values i{color:#A86730}
+.about{border-color:#D7EAE1}
+.placeholder{background:#FFF6E6;border-left-color:#F1C18F;color:#755232}
+.signature{color:#267365}
+.expertise{background:var(--mint)}
+.section-heading>p{color:var(--muted)}
+.service-grid article,.service-grid article:nth-child(2){background:#FFFFFF;border-color:#D6EBE1}
+.service-grid article:nth-child(2){background:#FFFBF3;border-color:#F0E4CA}
+.service-grid article:hover{box-shadow:0 14px 30px #3DBDAA14}
+.service-icon{color:#247B6D;background:#EAF8F3;border-radius:16px;display:inline-grid;place-items:center;width:64px;height:64px}
+.service-grid article:nth-child(2) .service-icon{background:var(--peach);color:#8D582C}
+.number{color:#536F69}
+.service-grid button{border-color:#D7EAE1;color:var(--green)}
+.approach{background:#FFFCF5}
+.steps article{border-color:#E4E9D9}
+.steps article>span{background:var(--peach);color:#755232;border-radius:50%;width:34px;height:34px;min-width:34px;display:grid;place-items:center;margin-top:0}
+.appointment{background:#DFF5ED;color:var(--green)}
+.appointment em{color:#267365}
+.appointment>div>p:not(.eyebrow),.appointment .contact>span{color:var(--muted)}
+.appointment form{background:#FFFFFF;box-shadow:0 12px 36px #2875650A}
+input,select,textarea{background:#F6FBF8;border-color:#CEE5DA;color:var(--green)}
+input::placeholder,textarea::placeholder{color:#627B74;opacity:1}
+input:hover,select:hover,textarea:hover{border-color:#76BBA8}
+footer{background:var(--cream);color:var(--green);border-color:#D7EAE1}
+footer>span{opacity:1;color:var(--muted)}
+dialog{background:var(--cream);border-color:#D6EBE1}
+dialog::backdrop{background:#174F4870}
