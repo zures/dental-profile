@@ -62,3 +62,23 @@ header.navbar #navigation.collapse:not(.show){display:none}
 .menu-toggle.navbar-toggler{padding:11px;color:var(--ink)}
 }
 @media(prefers-reduced-motion:reduce){header.navbar #navigation.collapsing{transition:none}}
+
+/* Expertise: compact, aligned cards on wide desktop screens. */
+#expertise .section-heading{align-items:center;gap:32px}
+#expertise .section-heading>div{min-width:0;max-width:720px}
+#expertise .section-heading>p{flex:0 1 320px}
+#expertise .service-grid .card{min-width:0}
+#expertise .service-grid h3{overflow-wrap:break-word;text-wrap:pretty}
+@media(min-width:1200px){
+#expertise .service-grid{--bs-gutter-x:20px;--bs-gutter-y:20px}
+#expertise .service-grid article{padding:24px}
+#expertise .service-grid .service-icon{width:48px;height:48px;padding:11px;border-radius:14px;flex-shrink:0}
+#expertise .service-grid .number{top:32px;right:24px}
+#expertise .service-grid h3{font-size:21px;line-height:1.45;letter-spacing:-.02em;margin:24px 0 16px;min-height:calc(3 * 1.45em)}
+#expertise .service-grid p{font-size:14px;line-height:1.85;margin-bottom:24px}
+#expertise .service-grid button{font-size:13px;gap:12px}
+}
+@media(max-width:767px){
+#expertise .section-heading{display:block}
+#expertise .section-heading>p{max-width:100%}
+}
