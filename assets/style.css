@@ -82,3 +82,9 @@ header.navbar #navigation.collapse:not(.show){display:none}
 #expertise .section-heading{display:block}
 #expertise .section-heading>p{max-width:100%}
 }
+
+/* Service card backgrounds: warm cream for orthodontics and restorations. */
+#expertise .service-grid.row>div:nth-child(1) article,
+#expertise .service-grid.row>div:nth-child(4) article{background:#FFFCF5}
+#expertise .service-grid.row>div:nth-child(2) article,
+#expertise .service-grid.row>div:nth-child(3) article{background:#FFFFFF}
