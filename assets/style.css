@@ -33,3 +33,32 @@ em{font-weight:400}
 .service-sources a{text-decoration:underline;text-underline-offset:3px}
 .service-sources[hidden]{display:none}
 @media(max-width:767px){.service-grid{grid-template-columns:1fr}}
+
+/* Bootstrap 5.3.8 integration; site tokens remain the source of brand colors. */
+:root{--bs-body-font-family:'Be Vietnam Pro',Arial,sans-serif;--bs-body-color:var(--ink);--bs-body-bg:var(--surface);--bs-primary:#3DBDAA;--bs-primary-rgb:61,189,170;--bs-border-color:var(--line)}
+header.navbar{flex-wrap:nowrap}
+header.navbar #navigation{flex-grow:0;justify-content:flex-end}
+.btn-primary{--bs-btn-bg:var(--primary);--bs-btn-border-color:var(--primary);--bs-btn-color:#103D36;--bs-btn-hover-bg:var(--primary-hover);--bs-btn-hover-border-color:var(--primary-hover);--bs-btn-hover-color:#103D36;--bs-btn-active-bg:var(--primary-hover);--bs-btn-active-border-color:var(--primary-hover);--bs-btn-active-color:#103D36}
+.button{white-space:normal}
+.service-grid.row{display:flex;gap:0;--bs-gutter-x:24px;--bs-gutter-y:24px}
+.service-grid.row>div{min-width:0}
+.service-grid .card{height:100%;color:var(--ink)}
+.service-grid.row>div:nth-child(2) article{background:#FFFCF5}
+.service-grid.row>div:nth-child(2) .service-icon{background:var(--peach);color:#805128}
+.service-grid.row>div:not(:nth-child(2)) article{background:#fff}
+.service-grid.row>div:not(:nth-child(2)) .service-icon{background:var(--mint);color:#267365}
+.appointment .form-control,.appointment .form-select{font-size:16px;line-height:1.75;min-height:48px;background-color:#F8FCFA;border:1px solid #9CBCAF;border-radius:10px;padding:12px;color:var(--ink);margin-bottom:20px}
+.appointment .form-select{padding-right:36px}
+.appointment .form-control:focus,.appointment .form-select:focus{border-color:#267365;box-shadow:0 0 0 .2rem #3DBDAA26}
+.appointment .form-label{font-size:13px;font-weight:500;margin-bottom:8px}
+.form-badge.badge{font-weight:500;white-space:normal;line-height:1.6;text-align:left}
+nav a,.text-link{color:var(--ink)}
+a:not(.button):hover{color:#267365}
+@media(max-width:767px){
+header.navbar #navigation{position:absolute;flex-grow:0;width:auto}
+header.navbar #navigation.show{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+header.navbar #navigation.collapsing{display:block;transition:height .35s ease}
+header.navbar #navigation.collapse:not(.show){display:none}
+.menu-toggle.navbar-toggler{padding:11px;color:var(--ink)}
+}
+@media(prefers-reduced-motion:reduce){header.navbar #navigation.collapsing{transition:none}}

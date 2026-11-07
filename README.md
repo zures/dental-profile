@@ -40,3 +40,13 @@ Dự án cũng chạy trên mọi hosting tĩnh. Giữ `index.html` và thư m�
 Form chỉ minh họa: không gửi, không lưu dữ liệu và không tạo lịch hẹn. Tiếp nhận lịch hẹn thật cần dịch vụ form hoặc backend được cấu hình riêng. Website chưa có đánh giá hoặc chứng chỉ thật.
 
 Font tải từ Google Fonts, có font dự phòng khi mất mạng. Ảnh minh họa được lưu cục bộ.
+
+## Bootstrap
+
+Đã tích hợp Bootstrap 5.3.8 (bản ổn định, MIT) qua các tệp phân phối chính thức được lưu tại `assets/vendor/`. Không cần CDN hoặc npm khi chạy website.
+
+- `bootstrap.min.css` được nạp trước CSS riêng của website.
+- `bootstrap.bundle.min.js` được nạp trước `assets/app.js` để chạy menu Collapse.
+- Lưới dịch vụ dùng `row`, `col-12 col-md-6`; thẻ dùng `card`, nút dùng `btn`, form dùng `form-control` và `form-select`.
+- Các biến màu website trong `assets/style.css` ánh xạ sang biến Bootstrap để giữ theme xanh ngọc.
+- Khi nâng phiên bản, thay cả hai tệp vendor bằng bản chính thức cùng phiên bản và kiểm tra lại menu, form, hộp thoại và giao diện responsive.

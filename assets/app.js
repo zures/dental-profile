@@ -1,15 +1,11 @@
 const menu = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
-menu.addEventListener('click', () => {
-  const expanded = menu.getAttribute('aria-expanded') !== 'true';
-  menu.setAttribute('aria-expanded', String(expanded));
-  menu.setAttribute('aria-label', expanded ? 'Đóng menu' : 'Mở menu');
-  navigation.classList.toggle('open', expanded);
-});
+navigation.addEventListener('shown.bs.collapse', () => menu.setAttribute('aria-label', 'Đóng menu'));
+navigation.addEventListener('hidden.bs.collapse', () => menu.setAttribute('aria-label', 'Mở menu'));
 navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  menu.setAttribute('aria-expanded', 'false');
-  menu.setAttribute('aria-label', 'Mở menu');
-  navigation.classList.remove('open');
+  if (matchMedia('(max-width: 767px)').matches) {
+    bootstrap.Collapse.getOrCreateInstance(navigation, { toggle: false }).hide();
+  }
 }));
 const descriptions = {
   'Chỉnh nha sinh cơ học cá nhân hóa': 'Chỉnh nha theo hướng sinh cơ học cá nhân hóa là cách lập kế hoạch và kiểm soát lực dịch chuyển răng dựa trên đặc điểm của từng người, không chỉ dựa vào loại mắc cài hay khay niềng.\n\nBác sĩ đánh giá khớp cắn, vị trí răng, hình dạng chân răng, sức khỏe nướu và xương nâng đỡ qua thăm khám và hồ sơ chẩn đoán phù hợp. Từ đó, kế hoạch xác định hướng và mức lực, điểm đặt lực, hệ thống neo chặn và trình tự dịch chuyển răng.\n\nTrong quá trình điều trị, đáp ứng của răng và mô nha chu cần được theo dõi để điều chỉnh kế hoạch. Khi mô nâng đỡ suy giảm, hệ lực và neo chặn cần được cân nhắc riêng.\n\nMục tiêu là hướng tới khớp cắn phù hợp, sự hài hòa nụ cười và sức khỏe mô nâng đỡ. Đây là định hướng lập kế hoạch điều trị, không phải cam kết niềng không đau, không nhổ răng hoặc rút ngắn thời gian cho mọi trường hợp. Chỉ định, khí cụ và thời gian cần được tư vấn sau thăm khám.',
