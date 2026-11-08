@@ -30,10 +30,64 @@ document.querySelector('#dialog-book').addEventListener('click', () => {
   document.querySelector('#appointment').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
   document.querySelector('#name').focus({preventScroll:true});
 });
-document.querySelector('#booking-form').addEventListener('submit', event => {
+const consultationForm = document.querySelector('#booking-form');
+const consultationStatus = document.querySelector('#form-status');
+const messagePanel = document.querySelector('#zalo-message-panel');
+const messagePreview = document.querySelector('#zalo-message-preview');
+const zaloConsultationUrl = 'https://zalo.me/0933121369';
+let preparingConsultation = false;
+
+async function copyConsultationMessage() {
+  if (!navigator.clipboard || !window.isSecureContext) throw new Error('Clipboard unavailable');
+  await navigator.clipboard.writeText(messagePreview.value);
+}
+
+consultationForm.addEventListener('submit', async event => {
   event.preventDefault();
-  const status = document.querySelector('#form-status');
-  status.textContent = 'Bạn đã hoàn tất trải nghiệm đặt lịch mẫu. Chưa có lịch hẹn được tạo và thông tin không được gửi hoặc lưu lại.';
-  status.focus();
-  event.target.reset();
+  if (preparingConsultation || !consultationForm.reportValidity()) return;
+  const data = new FormData(consultationForm);
+  messagePreview.value = [
+    'Chào Bs. Hằng, tôi muốn được tư vấn nha khoa.',
+    'Họ và tên: ' + String(data.get('name') || '').trim(),
+    'Số điện thoại: ' + String(data.get('phone') || '').trim(),
+    'Dịch vụ quan tâm: ' + String(data.get('service') || '').trim(),
+    'Lời nhắn: ' + (String(data.get('message') || '').trim() || 'Chưa có lời nhắn')
+  ].join('\n');
+  messagePanel.hidden = false;
+  preparingConsultation = true;
+  const submitButton = consultationForm.querySelector('button[type="submit"]');
+  submitButton.setAttribute('aria-busy', 'true');
+  submitButton.setAttribute('aria-disabled', 'true');
+  try {
+    await copyConsultationMessage();
+    consultationStatus.textContent = 'Đã sao chép nội dung. Đang mở Zalo Bs.Hằng; hãy dán nội dung và nhấn gửi. Tin nhắn chưa được gửi tự động.';
+    // Same-tab navigation avoids popup blocking after the clipboard permission prompt.
+    window.location.assign(zaloConsultationUrl);
+  } catch {
+    consultationStatus.textContent = 'Trình duyệt chưa cho phép sao chép. Bạn có thể chọn nội dung bên dưới để sao chép thủ công, rồi nhấn “Liên hệ Zalo Bs.Hằng”. Chưa có tin nhắn nào được gửi.';
+    messagePreview.focus();
+    messagePreview.select();
+  } finally {
+    preparingConsultation = false;
+    submitButton.removeAttribute('aria-busy');
+    submitButton.removeAttribute('aria-disabled');
+  }
+});
+
+document.querySelector('#copy-zalo-message').addEventListener('click', async () => {
+  try {
+    await copyConsultationMessage();
+    consultationStatus.textContent = 'Đã sao chép nội dung. Nhấn “Liên hệ Zalo Bs.Hằng”, dán nội dung và gửi cho bác sĩ.';
+  } catch {
+    consultationStatus.textContent = 'Hãy chọn và sao chép nội dung bên dưới bằng thao tác sao chép của thiết bị, sau đó mở Zalo để dán và gửi.';
+    messagePreview.focus();
+    messagePreview.select();
+  }
+});
+
+consultationForm.addEventListener('input', event => {
+  if (event.target === messagePreview) return;
+  messagePanel.hidden = true;
+  messagePreview.value = '';
+  consultationStatus.textContent = '';
 });
