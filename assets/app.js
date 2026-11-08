@@ -91,3 +91,65 @@ consultationForm.addEventListener('input', event => {
   messagePreview.value = '';
   consultationStatus.textContent = '';
 });
+
+
+// Credential images: native dialog handles focus trapping, Escape and focus return.
+const credentialCards = Array.from(document.querySelectorAll('[data-credential]'));
+const credentialViewer = document.querySelector('#credential-viewer');
+const credentialImage = document.querySelector('#credential-full-image');
+const credentialViewport = document.querySelector('.credential-viewport');
+const credentialPrev = document.querySelector('#credential-prev');
+const credentialNext = document.querySelector('#credential-next');
+const credentialZoomIn = document.querySelector('#credential-zoom-in');
+const credentialZoomOut = document.querySelector('#credential-zoom-out');
+const credentialZoomReset = document.querySelector('#credential-zoom-reset');
+let credentialIndex = 0;
+let credentialZoom = 1;
+
+function setCredentialZoom(value) {
+  credentialZoom = Math.max(1, Math.min(3, value));
+  credentialImage.style.width = (credentialZoom * 100) + '%';
+  credentialZoomReset.textContent = Math.round(credentialZoom * 100) + '%';
+  credentialZoomIn.disabled = credentialZoom >= 3;
+  credentialZoomOut.disabled = credentialZoom <= 1;
+  if (credentialZoom === 1) credentialViewport.scrollTo(0, 0);
+}
+function showCredential(index) {
+  credentialIndex = Math.max(0, Math.min(credentialCards.length - 1, index));
+  const card = credentialCards[credentialIndex];
+  credentialImage.src = card.href;
+  credentialImage.alt = card.querySelector('img').alt;
+  document.querySelector('#credential-viewer-title').textContent = card.dataset.title;
+  document.querySelector('#credential-counter').textContent = (credentialIndex + 1) + ' / ' + credentialCards.length;
+  credentialPrev.disabled = credentialIndex === 0;
+  credentialNext.disabled = credentialIndex === credentialCards.length - 1;
+  setCredentialZoom(1);
+}
+credentialCards.forEach((card, index) => card.addEventListener('click', event => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  showCredential(index);
+  credentialViewer.showModal();
+}));
+document.querySelector('.credential-close').addEventListener('click', () => credentialViewer.close());
+credentialPrev.addEventListener('click', () => showCredential(credentialIndex - 1));
+credentialNext.addEventListener('click', () => showCredential(credentialIndex + 1));
+credentialZoomIn.addEventListener('click', () => setCredentialZoom(credentialZoom + .25));
+credentialZoomOut.addEventListener('click', () => setCredentialZoom(credentialZoom - .25));
+credentialZoomReset.addEventListener('click', () => setCredentialZoom(1));
+credentialViewer.addEventListener('click', event => {
+  if (event.target !== credentialViewer) return;
+  const r = credentialViewer.getBoundingClientRect();
+  if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) credentialViewer.close();
+});
+credentialViewer.addEventListener('close', () => {
+  setCredentialZoom(1);
+  credentialCards[credentialIndex]?.focus({preventScroll: true});
+});
+credentialViewer.addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight' && credentialIndex < credentialCards.length - 1) {
+    event.preventDefault(); showCredential(credentialIndex + 1);
+  } else if (event.key === 'ArrowLeft' && credentialIndex > 0) {
+    event.preventDefault(); showCredential(credentialIndex - 1);
+  }
+});
