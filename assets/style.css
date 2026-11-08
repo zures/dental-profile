@@ -130,3 +130,14 @@ header.navbar #navigation.collapse:not(.show){display:none}
 .credential-viewer #credential-viewer-note{font-size:12px;line-height:1.8;color:var(--muted);margin:16px 0 0}
 @media(max-width:1023px){.credential-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:767px){.credentials{padding-top:0}.credential-grid{grid-template-columns:1fr;gap:20px}.credential-viewer{padding:16px}.credential-viewer h2{font-size:20px}.credential-viewport{max-height:50dvh}}
+
+/* Compact credentials replace the former placeholder sentence inside the bio. */
+.about-text .credentials-inline{margin:24px 0}
+.about-text .credentials-inline>h3{font-size:16px;line-height:1.5;margin:0 0 16px;color:var(--ink)}
+.about-text .credential-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.about-text .credential-card{border-radius:12px}
+.about-text .credential-image{padding:6px}
+.about-text .credential-expand{width:26px;height:26px;right:9px;bottom:9px;font-size:16px}
+.about-text .credential-copy{padding:10px 8px}
+.about-text .credential-copy h3{font-size:12px;line-height:1.55;margin:0;color:var(--ink);letter-spacing:0}
+.about-text .credential-badge,.about-text .credential-copy p,.about-text .credential-view{display:none}
