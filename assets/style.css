@@ -88,3 +88,9 @@ header.navbar #navigation.collapse:not(.show){display:none}
 #expertise .service-grid.row>div:nth-child(4) article{background:#FFFCF5}
 #expertise .service-grid.row>div:nth-child(2) article,
 #expertise .service-grid.row>div:nth-child(3) article{background:#FFFFFF}
+
+/* Direct contact is independent from the demo form submission. */
+#booking-form .form-zalo-link{width:100%;gap:12px;white-space:normal}
+#booking-form .form-zalo-hint{font-size:12px;color:var(--muted);margin:10px 0 20px}
+#booking-form .form-contact-divider{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--muted);margin:0 0 24px}
+#booking-form .form-contact-divider::before,#booking-form .form-contact-divider::after{content:"";height:1px;background:var(--line);flex:1}
