@@ -114,6 +114,7 @@ function trainingItems(card) {
     const source = document.getElementById(card.dataset.credentialGallery);
     const list = JSON.parse(source.textContent);
     const items = Array.isArray(list) ? list.filter(item => item && typeof item.src === "string" && item.src && typeof item.title === "string") : [];
+    items.sort((a, b) => String(a.receivedDate || '9999-12-31').localeCompare(String(b.receivedDate || '9999-12-31')) || String(a.completedDate || a.receivedDate || '').localeCompare(String(b.completedDate || b.receivedDate || '')));
     return items.length ? items : [credentialItem(card)];
   } catch { return [credentialItem(card)]; }
 }
