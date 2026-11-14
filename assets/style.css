@@ -141,3 +141,7 @@ header.navbar #navigation.collapse:not(.show){display:none}
 .about-text .credential-copy{padding:10px 8px}
 .about-text .credential-copy h3{font-size:12px;line-height:1.55;margin:0;color:var(--ink);letter-spacing:0}
 .about-text .credential-badge,.about-text .credential-copy p,.about-text .credential-view{display:none}
+
+/* Fit the portrait practice certificate inside its thumbnail without distortion. */
+.about-text .credential-card[href$="/chung-chi-hanh-nghe.webp"] .credential-image{aspect-ratio:900/636;overflow:hidden}
+.about-text .credential-card[href$="/chung-chi-hanh-nghe.webp"] .credential-image img{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);aspect-ratio:auto;object-fit:contain;object-position:center}
