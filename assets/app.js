@@ -104,6 +104,19 @@ const credentialZoomIn = document.querySelector('#credential-zoom-in');
 const credentialZoomOut = document.querySelector('#credential-zoom-out');
 const credentialZoomReset = document.querySelector('#credential-zoom-reset');
 let credentialIndex = 0;
+let activeCredentialItems = [];
+let credentialOpener = null;
+function credentialItem(card) {
+  return {src: card.href, title: card.dataset.title, alt: card.querySelector("img").alt};
+}
+function trainingItems(card) {
+  try {
+    const source = document.getElementById(card.dataset.credentialGallery);
+    const list = JSON.parse(source.textContent);
+    const items = Array.isArray(list) ? list.filter(item => item && typeof item.src === "string" && item.src && typeof item.title === "string") : [];
+    return items.length ? items : [credentialItem(card)];
+  } catch { return [credentialItem(card)]; }
+}
 let credentialZoom = 1;
 
 function setCredentialZoom(value) {
@@ -115,20 +128,23 @@ function setCredentialZoom(value) {
   if (credentialZoom === 1) credentialViewport.scrollTo(0, 0);
 }
 function showCredential(index) {
-  credentialIndex = Math.max(0, Math.min(credentialCards.length - 1, index));
-  const card = credentialCards[credentialIndex];
-  credentialImage.src = card.href;
-  credentialImage.alt = card.querySelector('img').alt;
-  document.querySelector('#credential-viewer-title').textContent = card.dataset.title;
-  document.querySelector('#credential-counter').textContent = (credentialIndex + 1) + ' / ' + credentialCards.length;
+  credentialIndex = Math.max(0, Math.min(activeCredentialItems.length - 1, index));
+  const item = activeCredentialItems[credentialIndex];
+  credentialImage.src = item.src;
+  credentialImage.alt = item.alt || item.title;
+  document.querySelector('#credential-viewer-title').textContent = item.title;
+  document.querySelector('#credential-counter').textContent = (credentialIndex + 1) + ' / ' + activeCredentialItems.length;
   credentialPrev.disabled = credentialIndex === 0;
-  credentialNext.disabled = credentialIndex === credentialCards.length - 1;
+  credentialNext.disabled = credentialIndex === activeCredentialItems.length - 1;
   setCredentialZoom(1);
 }
 credentialCards.forEach((card, index) => card.addEventListener('click', event => {
   if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
-  showCredential(index);
+  credentialOpener = card;
+  const normalCards = credentialCards.filter(entry => !entry.dataset.credentialGallery);
+  activeCredentialItems = card.dataset.credentialGallery ? trainingItems(card) : normalCards.map(credentialItem);
+  showCredential(card.dataset.credentialGallery ? 0 : normalCards.indexOf(card));
   credentialViewer.showModal();
 }));
 document.querySelector('.credential-close').addEventListener('click', () => credentialViewer.close());
@@ -144,10 +160,10 @@ credentialViewer.addEventListener('click', event => {
 });
 credentialViewer.addEventListener('close', () => {
   setCredentialZoom(1);
-  credentialCards[credentialIndex]?.focus({preventScroll: true});
+  credentialOpener?.focus({preventScroll: true});
 });
 credentialViewer.addEventListener('keydown', event => {
-  if (event.key === 'ArrowRight' && credentialIndex < credentialCards.length - 1) {
+  if (event.key === 'ArrowRight' && credentialIndex < activeCredentialItems.length - 1) {
     event.preventDefault(); showCredential(credentialIndex + 1);
   } else if (event.key === 'ArrowLeft' && credentialIndex > 0) {
     event.preventDefault(); showCredential(credentialIndex - 1);
