@@ -23,7 +23,7 @@ document.querySelectorAll('[data-service]').forEach(button => button.addEventLis
   dialog.showModal();
 }));
 document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
+
 document.querySelector('#dialog-book').addEventListener('click', () => {
   document.querySelector('#service').value = selectedService;
   dialog.close();
@@ -154,11 +154,7 @@ credentialNext.addEventListener('click', () => showCredential(credentialIndex + 
 credentialZoomIn.addEventListener('click', () => setCredentialZoom(credentialZoom + .25));
 credentialZoomOut.addEventListener('click', () => setCredentialZoom(credentialZoom - .25));
 credentialZoomReset.addEventListener('click', () => setCredentialZoom(1));
-credentialViewer.addEventListener('click', event => {
-  if (event.target !== credentialViewer) return;
-  const r = credentialViewer.getBoundingClientRect();
-  if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) credentialViewer.close();
-});
+
 credentialViewer.addEventListener('close', () => {
   setCredentialZoom(1);
   credentialOpener?.focus({preventScroll: true});
@@ -170,3 +166,23 @@ credentialViewer.addEventListener('keydown', event => {
     event.preventDefault(); showCredential(credentialIndex - 1);
   }
 });
+
+// Native light dismiss when available; preserve it on older browsers.
+if (!('closedBy' in HTMLDialogElement.prototype)) {
+  const isOutside = (event, modal) => {
+    const rect = modal.getBoundingClientRect();
+    return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+  };
+  document.querySelectorAll('dialog[closedby="any"]').forEach(modal => {
+    let outsidePointerId = null;
+    modal.addEventListener('pointerdown', event => {
+      outsidePointerId = event.isPrimary && event.button === 0 && isOutside(event, modal) ? event.pointerId : null;
+    });
+    modal.addEventListener('pointerup', event => {
+      if (event.pointerId === outsidePointerId && isOutside(event, modal)) modal.close();
+      outsidePointerId = null;
+    });
+    modal.addEventListener('pointercancel', () => { outsidePointerId = null; });
+    modal.addEventListener('close', () => { outsidePointerId = null; });
+  });
+}
