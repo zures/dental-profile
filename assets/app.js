@@ -34,7 +34,7 @@ const consultationForm = document.querySelector('#booking-form');
 const consultationStatus = document.querySelector('#form-status');
 const messagePanel = document.querySelector('#zalo-message-panel');
 const messagePreview = document.querySelector('#zalo-message-preview');
-const zaloConsultationUrl = 'https://zalo.me/0933121369';
+const zaloConsultationUrl = 'https://zalo.me/84865621916';
 let preparingConsultation = false;
 
 async function copyConsultationMessage() {
